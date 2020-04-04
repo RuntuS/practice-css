@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script crossorigin="anonymous" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh"
+        src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div  id="middle">
+        <div class="bar bar1"></div>
+        <div class="bar bar2"></div>
+        <div class="bar bar3"></div>
+        <div class="bar bar4"></div>
+        <div class="bar bar5"></div>
+        <div class="bar bar6"></div>
+        <div class="bar bar7"></div>
+        <div class="bar bar8"></div>
+    </div>
+    <div class="box">
+        <img src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF53.png" alt="">
+    </div>
+</body>
+<script>
+    var image_arr = Array.from($(".box"));
+    var image_1 = image_arr[0];
+    ajaxForImage();
+    function ajaxForImage() {
+        $("#middle").fadeIn("slow");
+        $.ajax({
+            method: "GET",
+            url: "http://127.0.0.1:8000",
+            success(res) {
+                setTimeout(() => {
+                    var new_image_box = document.createElement("div");
+                    new_image_box.className = "box";
+                    var new_image = document.createElement("img");
+                    new_image.setAttribute("src", res.url)
+                    new_image_box.appendChild(new_image)
+                    image_1.parentElement.appendChild(new_image_box);
+                    $("#middle").fadeOut("slow");
+                }, 500)
+
+            },
+            error(err) {
+
+            }
+
+        })
+    }
+    $(window).scroll(() => {
+        if (document.body.scrollHeight === scrollY + window.innerHeight) {
+            ajaxForImage();
+        }
+    })
+
+    
+</script>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script crossorigin="anonymous" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" src="https://lib.baomitu.com/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<body>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF53.png" alt="" class="image"  class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF52.png" alt="" class="image" class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF51.png" alt="" class="image"  class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF43.png" alt="" class="image"  class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF42.png" alt="" class="image"   class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF41.png" alt="" class="image"   class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF32.png" alt="" class="image"  class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF24.png" alt="" class="image" class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF23.png" alt="" class="image"  class="display:none">
+    </div>
+    <div class="box">
+        <img data-src="https://photo-1258955954.cos.ap-chengdu.myqcloud.com/%E5%89%8D%E7%AB%AF22.png" alt="" class="image" class="display:none">
+    </div> 
+   
+   
+  
+</body>
+<script>
+
+
+console.log($(".image"))
+var image_arr = $(".image");
+var image = Array.from(image_arr)
+image.forEach(init);
+init_photo(image);
+var count = find_count(image); //标记显示图片的最后一个元素位置
+image[count].parentElement.style.setProperty("display","block"); //让显示了图片的下一个盒子提前显示，否则下方识别会出错
+
+$(window).scroll(() => {
+    for(var i = count ; i < image.length ; i++)
+    {
+        if(image[i].offsetTop <= window.innerHeight + scrollY)
+        {
+            let src = image[i].getAttribute("data-src");
+            image[i].setAttribute("src",src);
+            count++;
+            image[count].parentElement.style.setProperty("display","block");
+        }
+        else
+        {
+            break;
+        }
+    }
+  
+})
+
+
+//初始化设置
+function init(item){
+    item.display_photo = false;
+}
+
+function init_photo(image){
+    for(var i = 0 ; i < image.length ; i++)
+    {
+        console.log(image[i].offsetTop,window.innerHeight,scrollY)
+        if(image[i].offsetTop <= window.innerHeight + scrollY)
+        {
+        
+            let src = image[i].getAttribute("data-src");
+            image[i].setAttribute("src",src);
+            image[i].parentElement.style.setProperty("display","block");
+            image[i].display_photo = true;
+        }
+        else
+        {
+            break;
+        }
+    }
+} 
+
+function find_count(image)
+{
+    for(var i = 0; i < image.length ; i++)
+    {
+        if(image[i].display_photo === false)
+        {
+            return i;
+        }
+    }
+}
+</script>
+</html>
